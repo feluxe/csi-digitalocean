@@ -118,13 +118,13 @@ provisioner: dobs.csi.digitalocean.com
 
 ---
 
-kind: VolumeSnapshotClass
-apiVersion: snapshot.storage.k8s.io/v1alpha1
-metadata:
-  name: do-block-storage
-  annotations:
-    snapshot.storage.kubernetes.io/is-default-class: "true"
-snapshotter: dobs.csi.digitalocean.com
+# kind: VolumeSnapshotClass
+# apiVersion: snapshot.storage.k8s.io/v1alpha1
+# metadata:
+#   name: do-block-storage
+#   annotations:
+#     snapshot.storage.kubernetes.io/is-default-class: "true"
+# snapshotter: dobs.csi.digitalocean.com
 
 ---
 
@@ -151,7 +151,7 @@ spec:
       serviceAccount: csi-do-controller-sa
       containers:
         - name: csi-provisioner
-          image: quay.io/k8scsi/csi-provisioner:v0.4.1
+          image: quay.io/k8scsi/csi-provisioner:v1.0.0
           args:
             - "--provisioner=dobs.csi.digitalocean.com"
             - "--csi-address=$(ADDRESS)"
@@ -164,7 +164,7 @@ spec:
             - name: socket-dir
               mountPath: /var/lib/csi/sockets/pluginproxy/
         - name: csi-attacher
-          image: quay.io/k8scsi/csi-attacher:v0.4.1
+          image: quay.io/k8scsi/csi-attacher:v1.0.0
           args:
             - "--v=5"
             - "--csi-address=$(ADDRESS)"
@@ -176,7 +176,7 @@ spec:
             - name: socket-dir
               mountPath: /var/lib/csi/sockets/pluginproxy/
         - name: csi-snapshotter
-          image: quay.io/k8scsi/csi-snapshotter:v0.4.1
+          image: quay.io/k8scsi/csi-snapshotter:v1.0.0
           args:
             - "--connection-timeout=15s"
             - "--csi-address=$(ADDRESS)"
@@ -374,7 +374,7 @@ spec:
       hostNetwork: true
       containers:
         - name: driver-registrar
-          image: quay.io/k8scsi/driver-registrar:v0.4.1
+          image: quay.io/k8scsi/driver-registrar:v1.0.0
           args:
             - "--v=5"
             - "--csi-address=$(ADDRESS)"
